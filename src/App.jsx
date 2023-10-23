@@ -1,4 +1,5 @@
 import Calendar from "./components/Calendar/Calendar";
+import Postit from "./components/Post-it/Post-it";
 
 function App() {
   return (

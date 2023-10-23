@@ -2,7 +2,7 @@ import React from "react";
 
 function Calendar() {
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 mb-10">
       <table className="table-fixed w-full border border-solid border-gray-300 rounded-lg">
         <thead>
           <tr>

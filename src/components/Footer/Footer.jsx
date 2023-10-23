@@ -8,7 +8,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 
 function Footer() {
   return (
-    <footer className="w-full bg-mainBlue h-auto flex flex-row justify-around content-center">
+    <footer className="w-full bg-mainBlue h-auto flex flex-row justify-around content-center mt-14">
       <div className="flex flex-col gap-5 content-center my-14 h-auto w-2/5 px-24">
         <div className="flex gap-4 text-white text-lg h-8 content-center">
           <RoomIcon sx={{ fontSize: 30 }} />
