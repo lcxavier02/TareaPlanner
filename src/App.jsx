@@ -1,7 +1,9 @@
+import Calendar from "./components/Calendar/Calendar";
+
 function App() {
   return (
-    <div>
-      <h1 className="font-sans text-slate-400">App</h1>
+    <div className="mt-16">
+      <Calendar />
     </div>
   );
 }
