@@ -12,7 +12,8 @@ export default {
         'boardColor' : '#2438F0',
         'postItNormal' : '#24F0A2',
         'postItHighlight' : '#FFD966',
-        'blueCard' : '#BDE3FF'
+        'blueCard' : '#BDE3FF',
+        'buttonLog': '#0D3380'
       },
     },
   },
