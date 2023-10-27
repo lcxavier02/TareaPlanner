@@ -1,10 +1,19 @@
 import express from 'express';
+import fb from "./firestore.js";
+import { getFirestore, collection, doc, setDoc, getDoc, getDocs } from "firebase/firestore"
 
 const app = express();
 const PORT = 3000;
 
-app.get('/', (req, res) => {
-  res.send("Hola mundo");
+const db = getFirestore(fb);
+
+app.get('/', async (req, res) => {
+  const usersRef = collection(db, "users");
+  const usersSnap = await getDocs(usersRef);
+
+  usersSnap.forEach((doc) => {
+    res.send(doc.data());
+  });
 });
 
 app.listen(PORT, () => {
