@@ -2,13 +2,21 @@ import Calendar from "./components/Calendar/Calendar";
 import Postit from "./components/Post-it/Post-it";
 import Navbar from "./components/Navbar/Navbar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Sidemenu from "./components/Sidemenu/Sidemenu";
 
 function App() {
   return (
     <>
-      <Navbar />
-      <div className="mt-16">
-        <Calendar />
+      <div className="flex">
+        <Sidemenu />
+        <div className="w-full">
+          <Navbar />
+          <div className="container mx-auto mt-10">
+            <h1 className="container text-3xl m-auto">Your Dashboard</h1>
+            <Dashboard />
+          </div>
+        </div>
       </div>
       <Footer />
     </>

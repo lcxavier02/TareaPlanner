@@ -8,6 +8,7 @@ import Working from "./components/Working/Working.jsx";
 import Queue from "./components/Queue/Queue.jsx";
 import Pending from "./components/Pending/Pending.jsx";
 import Login from "./components/LogIn/Login.jsx";
+import Settings from "./components/Settings/Settings.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/settings",
+    element: <Settings />,
   },
 ]);
 
