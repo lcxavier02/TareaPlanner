@@ -1,16 +1,17 @@
 import React from "react";
+import Calendar from "../Calendar/Calendar";
 import Sidemenu from "../Sidemenu/Sidemenu";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 
-function Settings() {
+function CalendarView() {
   return (
     <>
       <div className="flex">
         <Sidemenu />
         <div className="w-full">
           <Navbar />
-          <h1>Settings</h1>
+          <Calendar />
         </div>
       </div>
       <Footer />
@@ -18,4 +19,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default CalendarView;

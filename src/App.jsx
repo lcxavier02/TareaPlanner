@@ -12,8 +12,8 @@ function App() {
         <Sidemenu />
         <div className="w-full">
           <Navbar />
-          <div className="container mx-auto mt-10">
-            <h1 className="container text-3xl m-auto">Your Dashboard</h1>
+          <div className="container mx-auto mt-10 h-auto">
+            <h1 className="container text-3xl m-auto mb-4">Your Dashboard</h1>
             <Dashboard />
           </div>
         </div>

@@ -48,7 +48,7 @@ function Login() {
             <div>
               <button
                 onClick={onSubmit}
-                className="flex items-center gap-1 p-5 font-semibold text-white bg-buttonLog rounded-md hover:bg-blue-800 w-full h-10 text-center"
+                className="flex items-center gap-1 p-5 font-semibold text-white bg-boardColor rounded-md hover:bg-blue-800 w-full h-10 text-center justify-center text-lg"
               >
                 Log In
               </button>

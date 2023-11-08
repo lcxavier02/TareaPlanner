@@ -1,8 +1,12 @@
 import express from 'express';
 import fb from "./firestore.js";
-import { getFirestore, collection, doc, setDoc, getDoc, getDocs } from "firebase/firestore"
+import { getFirestore, collection, doc, setDoc, getDoc, getDocs } from "firebase/firestore";
+import cors from "cors";
 
 const app = express();
+
+app.use(cors());
+
 const PORT = 3000;
 
 const db = getFirestore(fb);

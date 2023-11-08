@@ -3,14 +3,14 @@ import Sidemenu from "../Sidemenu/Sidemenu";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 
-function Settings() {
+function Tasks() {
   return (
     <>
       <div className="flex">
         <Sidemenu />
         <div className="w-full">
           <Navbar />
-          <h1>Settings</h1>
+          <h1>Tasks</h1>
         </div>
       </div>
       <Footer />
@@ -18,4 +18,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default Tasks;

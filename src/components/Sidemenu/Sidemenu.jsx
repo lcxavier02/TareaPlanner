@@ -17,7 +17,7 @@ function Sidemenu() {
   return (
     <>
       <div
-        className={`bg-boardColor h-screen duration-200 p-5 pt-8 ${
+        className={`bg-boardColor min-h-screen duration-200 p-5 pt-8 ${
           isOpen ? "w-64" : "w-20"
         }`}
       >

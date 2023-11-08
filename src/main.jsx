@@ -9,6 +9,8 @@ import Queue from "./components/Queue/Queue.jsx";
 import Pending from "./components/Pending/Pending.jsx";
 import Login from "./components/LogIn/Login.jsx";
 import Settings from "./components/Settings/Settings.jsx";
+import CalendarView from "./components/CalendarView/CalendarView.jsx";
+import Tasks from "./components/Tasks/Tasks.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -36,6 +38,14 @@ const router = createBrowserRouter([
   {
     path: "/settings",
     element: <Settings />,
+  },
+  {
+    path: "/calendar",
+    element: <CalendarView />,
+  },
+  {
+    path: "/tasks",
+    element: <Tasks />,
   },
 ]);
 
