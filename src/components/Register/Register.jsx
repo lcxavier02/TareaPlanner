@@ -1,20 +1,21 @@
-import { React, useState } from "react";
+import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Navbar from "../Navbar/Navbar.jsx";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useAuth } from "../../context/authContext.jsx";
 import { useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 import "react-toastify/dist/ReactToastify.css";
 
-function Login() {
+function Register() {
   const [user, setUser] = useState({
     email: "",
     password: "",
+    username: "",
   });
   const [error, setError] = useState();
 
-  const { logIn, googleLogIn } = useAuth();
+  const { signUp, registerUser } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = ({ target: { name, value } }) => {
@@ -24,26 +25,8 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userCredentials = await logIn(user.email, user.password);
-      console.log(userCredentials);
-      navigate("/");
-    } catch (error) {
-      setError(error.message);
-      toast.error(error.message, {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
-  };
-
-  const handleLogInGoogle = async () => {
-    try {
-      await googleLogIn();
+      const createdUser = await signUp(user.email, user.password);
+      await registerUser(user.email, user.username, createdUser);
       navigate("/");
     } catch (error) {
       setError(error.message);
@@ -68,9 +51,21 @@ function Login() {
         >
           <div>
             {error && <ToastContainer />}
-            <h1 className="text-center text-xl font-semibold">Login Form</h1>
+            <h1 className="text-center text-xl font-semibold">Register Form</h1>
           </div>
           <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="">Username</label>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Your username"
+                onChange={handleChange}
+                className="h-10 rounded-md px-4 border py-2 text-grey-darkest"
+                required
+              />
+            </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="">Email</label>
               <input
@@ -95,27 +90,18 @@ function Login() {
                 required
               />
               <span>
-                Not registered yet?{" "}
-                <Link to={"/register"}>
+                Already have an account?{" "}
+                <Link to={"/login"}>
                   <span className="text-blue-500 hover:text-blue-700 no-underline">
-                    Do it now
+                    Login now
                   </span>
                 </Link>
               </span>
             </div>
           </div>
           <div>
-            <button className="flex items-center mt-5 gap-1 p-5 font-semibold text-white bg-boardColor rounded-md hover:bg-blue-800 w-full h-10 text-center justify-center text-lg">
-              Login
-            </button>
-          </div>
-          <div>
-            <button
-              className="flex items-center mt-5 gap-4 p-5 font-semibold w-full h-10 text-center justify-center text-lg border border-gray-700 rounded-md text-gray-700 hover:border-black hover:text-black"
-              onClick={handleLogInGoogle}
-            >
-              <FcGoogle className="text-2xl" />
-              Sign in with Google
+            <button className="flex items-center mt-6 gap-1 p-5 font-semibold text-white bg-boardColor rounded-md hover:bg-blue-800 w-full h-10 text-center justify-center text-lg">
+              Register
             </button>
           </div>
         </form>
@@ -124,4 +110,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
