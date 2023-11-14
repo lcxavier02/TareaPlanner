@@ -1,6 +1,6 @@
-import { React, useState } from "react";
+import { React, useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import Navbar from "../Navbar/Navbar.jsx";
+import ResetPasswordModal from "../ResetPasswordModal/ResetPasswordModal.jsx";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext.jsx";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +13,11 @@ function Login() {
     password: "",
   });
   const [error, setError] = useState();
+  const [showModal, setShowModal] = useState(false);
 
-  const { logIn, googleLogIn } = useAuth();
+  const modalEmailRef = useRef(null);
+
+  const { logIn, googleLogIn, resetPassword } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = ({ target: { name, value } }) => {
@@ -59,6 +62,33 @@ function Login() {
     }
   };
 
+  const handleResetPassword = async () => {
+    try {
+      const modalEmail = modalEmailRef.current.value;
+      await resetPassword(modalEmail);
+      closeModal();
+    } catch (error) {
+      setError(error.message);
+      toast.error(error.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <>
       <div className="mt-24 w-full flex content-center justify-center">
@@ -94,14 +124,25 @@ function Login() {
                 className="h-10 rounded-md px-4 border py-2 text-grey-darkest"
                 required
               />
-              <span>
-                Not registered yet?{" "}
-                <Link to={"/register"}>
-                  <span className="text-blue-500 hover:text-blue-700 no-underline">
-                    Do it now
+              <div className="flex items-center justify-between mt-2">
+                <span>
+                  Not registered yet?{" "}
+                  <Link to={"/register"}>
+                    <span className="text-blue-500 hover:text-blue-700 no-underline">
+                      Do it now
+                    </span>
+                  </Link>
+                </span>
+
+                <Link>
+                  <span
+                    className="text-blue-500 hover:text-blue-700 no-underline"
+                    onClick={openModal}
+                  >
+                    Forgot password?
                   </span>
                 </Link>
-              </span>
+              </div>
             </div>
           </div>
           <div>
@@ -119,6 +160,12 @@ function Login() {
             </button>
           </div>
         </form>
+        <ResetPasswordModal
+          showModal={showModal}
+          closeModal={closeModal}
+          onSubmit={handleResetPassword}
+          emailRef={modalEmailRef}
+        />
       </div>
     </>
   );

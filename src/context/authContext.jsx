@@ -6,6 +6,7 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth, firestore } from "../firebaseConfig";
 import { doc, setDoc, getDoc } from "firebase/firestore";
@@ -47,9 +48,19 @@ export function AuthContextProvider({ children }) {
       createDate: new Date(),
     });
 
+  const resetPassword = (email) => sendPasswordResetEmail(auth, email);
+
   return (
     <authContext.Provider
-      value={{ signUp, logIn, registerUser, logOut, googleLogIn, user }}
+      value={{
+        signUp,
+        logIn,
+        registerUser,
+        logOut,
+        googleLogIn,
+        resetPassword,
+        user,
+      }}
     >
       {children}
     </authContext.Provider>
