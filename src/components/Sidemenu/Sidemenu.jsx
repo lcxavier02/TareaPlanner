@@ -31,12 +31,12 @@ function Sidemenu() {
         <Link to={"/"}>
           <div className="mt-6 h-14">
             <BsBookHalf
-              className={`text-white text-4xl cursor-pointer rounded block duration-500 float-left mr-2 ${
+              className={`text-white text-4xl cursor-pointer rounded block duration-500 float-left mr-4 ${
                 isOpen && "rotate-[360deg] text-4xl"
               }`}
             />
             <h1
-              className={`text-white origin-left font-medium text-2xl ${
+              className={`text-white origin-left font-medium text-xl ${
                 !isOpen && "scale-0"
               }`}
             >
