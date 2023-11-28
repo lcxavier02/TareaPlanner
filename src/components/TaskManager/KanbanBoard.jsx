@@ -1,12 +1,8 @@
-import React, { useMemo, useState } from "react";
-import PlusIcon from "../icons/PlusIcon";
+import React, { useMemo, useState, useEffect } from "react";
 import ColumnContainer from "./ColumnContainer";
 import {
   DndContext,
-  // DragEndEvent,
-  // DragOverEvent,
   DragOverlay,
-  // DragStartEvent,
   PointerSensor,
   useSensor,
   useSensors,
@@ -14,6 +10,9 @@ import {
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
 import TaskCard from "./TaskCard";
+import { useAuth } from "../../context/authContext";
+import { firestore } from "../../firebaseConfig";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 const defaultCols = [
   {
@@ -33,10 +32,39 @@ const defaultCols = [
 const defaultTasks = [];
 
 export function KanbanBoard() {
+  const { user } = useAuth();
+
+  useEffect(() => {
+    const loadTasks = async () => {
+      if (!user) {
+        return;
+      }
+
+      try {
+        const q = query(
+          collection(firestore, "notes"),
+          where("createdBy", "==", user.uid)
+        );
+        const querySnapshot = await getDocs(q);
+        const loadedTasks = [];
+
+        querySnapshot.forEach((doc) => {
+          loadedTasks.push({ id: doc.id, ...doc.data() });
+        });
+
+        setTasks(loadedTasks);
+      } catch (error) {
+        console.error("Error getting documents: ", error);
+      }
+    };
+
+    loadTasks();
+  }, [user]);
+
   const [columns, setColumns] = useState(defaultCols);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
-  const [tasks, setTasks] = useState(defaultTasks);
+  const [tasks, setTasks] = useState([]);
 
   const [activeColumn, setActiveColumn] = useState(null);
 
@@ -49,6 +77,7 @@ export function KanbanBoard() {
       },
     })
   );
+  console.log(user);
 
   return (
     <div
@@ -88,29 +117,6 @@ export function KanbanBoard() {
               ))}
             </SortableContext>
           </div>
-          {/* <button
-            onClick={() => {
-              createNewColumn();
-            }}
-            className="
-              h-[60px]
-              w-[350px]
-              min-w-[350px]
-              cursor-pointer
-              rounded-lg
-              bg-mainBackgroundColor
-              border-2
-              border-columnBackgroundColor
-              p-4
-              ring-rose-500
-              hover:ring-2
-              flex
-              gap-2
-              "
-          >
-            <PlusIcon />
-            Add Column
-          </button> */}
         </div>
 
         {createPortal(
@@ -142,14 +148,26 @@ export function KanbanBoard() {
     </div>
   );
 
-  function createTask(columnId) {
+  async function createTask(columnId) {
+    if (!user) {
+      console.error("Usuario no autenticado");
+      return;
+    }
+
     const newTask = {
-      id: generateId(),
       columnId,
-      content: `Task ${tasks.length + 1}`,
+      content: `${tasks.length}`,
+      createdBy: user.uid,
     };
 
-    setTasks([...tasks, newTask]);
+    try {
+      const docRef = await addDoc(collection(firestore, "notes"), newTask);
+      newTask.id = docRef.id;
+
+      setTasks([...tasks, newTask]);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
   }
 
   function deleteTask(id) {
@@ -204,7 +222,17 @@ export function KanbanBoard() {
     }
   }
 
-  function onDragEnd(event) {
+  async function updateTasksInFirestore(updatedTasks) {
+    for (const task of updatedTasks) {
+      try {
+        await updateDoc(doc(firestore, "notes", task.id), task);
+      } catch (error) {
+        console.error("Error updating document: ", error);
+      }
+    }
+  }
+
+  async function onDragEnd(event) {
     setActiveColumn(null);
     setActiveTask(null);
 
@@ -216,17 +244,18 @@ export function KanbanBoard() {
 
     if (activeId === overId) return;
 
-    const isActiveAColumn = active.data.current?.type === "Column";
-    if (!isActiveAColumn) return;
+    const isActiveATask = active.data.current?.type === "Task";
+    if (!isActiveATask) return;
 
-    console.log("DRAG END");
+    setTasks((tasks) => {
+      const activeIndex = tasks.findIndex((t) => t.id === activeId);
+      const overIndex = tasks.findIndex((t) => t.id === overId);
 
-    setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
+      const updatedTasks = arrayMove(tasks, activeIndex, overIndex);
 
-      const overColumnIndex = columns.findIndex((col) => col.id === overId);
+      updateTasksInFirestore(updatedTasks);
 
-      return arrayMove(columns, activeColumnIndex, overColumnIndex);
+      return updatedTasks;
     });
   }
 
