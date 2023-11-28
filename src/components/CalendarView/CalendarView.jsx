@@ -11,6 +11,9 @@ function CalendarView() {
         <Sidemenu />
         <div className="w-full">
           <Navbar />
+          <div className="container mx-auto mt-10 h-auto">
+            <h1 className="container text-3xl m-auto mb-4">Calendar</h1>
+          </div>
           <Calendar />
         </div>
       </div>

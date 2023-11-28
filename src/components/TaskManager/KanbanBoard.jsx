@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState } from "react";
 import PlusIcon from "../icons/PlusIcon";
 import ColumnContainer from "./ColumnContainer";
 import {
@@ -30,9 +30,7 @@ const defaultCols = [
   },
 ];
 
-const defaultTasks = [
-    
-];
+const defaultTasks = [];
 
 export function KanbanBoard() {
   const [columns, setColumns] = useState(defaultCols);
@@ -58,11 +56,13 @@ export function KanbanBoard() {
         m-auto
         flex
         min-h-screen
-        w-full
+        w-11/12
         items-center
         overflow-x-auto
         overflow-y-hidden
         px-[40px]
+        bg-[#F3F7FF]
+        rounded-lg
     "
     >
       <DndContext
@@ -244,14 +244,12 @@ export function KanbanBoard() {
 
     if (!isActiveATask) return;
 
-    
     if (isActiveATask && isOverATask) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
         const overIndex = tasks.findIndex((t) => t.id === overId);
 
         if (tasks[activeIndex].columnId != tasks[overIndex].columnId) {
-          
           tasks[activeIndex].columnId = tasks[overIndex].columnId;
           return arrayMove(tasks, activeIndex, overIndex - 1);
         }
@@ -262,7 +260,6 @@ export function KanbanBoard() {
 
     const isOverAColumn = over.data.current?.type === "Column";
 
-    
     if (isActiveATask && isOverAColumn) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
@@ -276,7 +273,6 @@ export function KanbanBoard() {
 }
 
 function generateId() {
-  
   return Math.floor(Math.random() * 10001);
 }
 

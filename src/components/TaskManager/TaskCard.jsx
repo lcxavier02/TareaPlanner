@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import TrashIcon from "../icons/TrashIcon";
 import { useSortable } from "@dnd-kit/sortable";
+import { FaRegTrashCan } from "react-icons/fa6";
 import { CSS } from "@dnd-kit/utilities";
 
 function TaskCard({ task, deleteTask, updateTask }) {
@@ -25,7 +26,7 @@ function TaskCard({ task, deleteTask, updateTask }) {
 
   const style = {
     transition,
-    transform: transform ? transform.toString() : '',
+    transform: transform ? transform.toString() : "",
   };
 
   const toggleEditMode = () => {
@@ -39,9 +40,7 @@ function TaskCard({ task, deleteTask, updateTask }) {
         ref={setNodeRef}
         style={style}
         className="
-        opacity-30
-      bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-blue-500  cursor-grab relative
-      "
+        opacity-30 bg-white p-2.5 h-[100px] h-min-[100px] w-[150px] min-w-[100px] items-center flex text-left rounded-xl border-2 border-gray-300 cursor-grab relative shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]"
       />
     );
   }
@@ -53,12 +52,12 @@ function TaskCard({ task, deleteTask, updateTask }) {
         style={style}
         {...attributes}
         {...listeners}
-        className="bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-blue-500 cursor-grab relative"
+        className="bg-white p-2.5 h-[100px] min-h-[100px] w-[150px] min-w-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:border-gray-300 cursor-grab relative shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]"
       >
         <textarea
           className="
         h-[90%]
-        w-full resize-none border-none rounded bg-transparent text-white focus:outline-none
+        w-full resize-none border-none rounded bg-transparent text-black focus:outline-none
         "
           value={task.content}
           autoFocus
@@ -82,7 +81,7 @@ function TaskCard({ task, deleteTask, updateTask }) {
       {...attributes}
       {...listeners}
       onClick={toggleEditMode}
-      className="bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-blue-500 cursor-grab relative task"
+      className="bg-white p-2.5 h-[100px] min-h-[100px] w-[130px] min-w-[145px] items-center flex text-left rounded-xl border border-gray-300 cursor-grab relative task shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)] m-2"
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
@@ -90,19 +89,17 @@ function TaskCard({ task, deleteTask, updateTask }) {
         setMouseIsOver(false);
       }}
     >
-      <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
+      <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap text-black">
         {task.content}
       </p>
 
       {mouseIsOver && (
-        <button
+        <FaRegTrashCan
+          className="text-red-600 cursor-pointer text-lg"
           onClick={() => {
             deleteTask(task.id);
           }}
-          className="stroke-white absolute right-4 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100"
-        >
-          <TrashIcon />
-        </button>
+        />
       )}
     </div>
   );
